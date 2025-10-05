@@ -4,11 +4,12 @@ import com.example.backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class AuthController {
 
     @Autowired
@@ -22,9 +23,17 @@ public class AuthController {
                     request.get("email"),
                     request.get("password")
             );
-            return ResponseEntity.ok(Map.of("message", message));
+
+            return ResponseEntity.ok(Map.of(
+                    "status", "success",
+                    "message", message
+            ));
+
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "error",
+                    "error", e.getMessage()
+            ));
         }
     }
 
@@ -32,9 +41,17 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         try {
             String token = authService.login(request.get("email"), request.get("password"));
-            return ResponseEntity.ok(Map.of("token", token));
+
+            return ResponseEntity.ok(Map.of(
+                    "status", "success",
+                    "token", token
+            ));
+
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "error",
+                    "error", e.getMessage()
+            ));
         }
     }
 }

@@ -54,7 +54,7 @@ const Register = () => {
       }
 
       localStorage.setItem('user', JSON.stringify(data));
-      navigate('/gamehome');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
     }

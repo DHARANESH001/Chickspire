@@ -12,21 +12,22 @@ const Home = () => {
     <div className="home-container">
       {/* Navigation */}
       <header className="navbar">
-  <div className="logo">
-    <img src="logo.jpg" alt="Logo" className="nav-logo" />
-  </div>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#updates">Updates</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/register">Register</a></li>
-    </ul>
-  </nav>
-</header>
+        <div className="logo">
+          <img src="logo.jpg" alt="Logo" className="nav-logo" />
+        </div>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#updates">Updates</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+          </ul>
+        </nav>
+      </header>
+
       {/* Hero Section (Slider) */}
       <section className="hero-slider">
         <Swiper
@@ -73,58 +74,54 @@ const Home = () => {
         </Swiper>
       </section>
 
-{/* Features Zig-Zag Section */}
-<section id="features" className="features">
-  <h2 className="section-title">Our Features</h2>
+      {/* Features Zig-Zag Section */}
+      <section id="features" className="features">
+        <h2 className="section-title">Our Features</h2>
 
-  {/* Temperature Feature */}
-  <div className="feature-block">
-    <div className="feature-content">
-      <div className="feature-img">
-        <img src="temperature.jpg" alt="Temperature Monitoring" />
-      </div>
-      <div className="feature-text">
-        <h3>🌡 Temperature Monitoring</h3>
-        <p>
-          Track and alert when temperature goes out of safe operating range. 
-          Using the LM35D sensor, readings are precise and monitored in real-time.
-        </p>
-      </div>
-    </div>
-  </div>
+        {/* Temperature Feature */}
+        <div className="feature-row">
+          <div className="feature-img">
+            <img src="s1.jpg" alt="Temperature Monitoring" />
+          </div>
+          <div className="feature-text">
+            <h3>🌡 Temperature Monitoring</h3>
+            <p>
+              Track and alert when temperature goes out of safe operating range.
+              Using the LM35D sensor, readings are precise and monitored in real-time.
+            </p>
+          </div>
+        </div>
 
-  {/* Water Flow Feature */}
-  <div className="feature-block reverse">
-    <div className="feature-content">
-      <div className="feature-img">
-        <img src="water.jpg" alt="Water Flow Monitoring" />
-      </div>
-      <div className="feature-text">
-        <h3>💧 Water Flow Measurement</h3>
-        <p>
-          Accurate measurement of water usage using the YF-S201 flow sensor. 
-          Perfect for poultry farms to track water supply efficiency.
-        </p>
-      </div>
-    </div>
-  </div>
+        {/* Water Flow Feature */}
+        <div className="feature-row reverse">
+          <div className="feature-img">
+            <img src="water.jpg" alt="Water Flow Monitoring" />
+          </div>
+          <div className="feature-text">
+            <h3>💧 Water Flow Measurement</h3>
+            <p>
+              Accurate measurement of water usage using the YF-S201 flow sensor.
+              Perfect for poultry farms to track water supply efficiency.
+            </p>
+          </div>
+        </div>
 
-  {/* Alerts Feature */}
-  <div className="feature-block">
-    <div className="feature-content">
-      <div className="feature-img">
-        <img src="temperature.jpg" alt="Alerts & Safety" />
-      </div>
-      <div className="feature-text">
-        <h3>🔔 Alerts & Safety</h3>
-        <p>
-          Automatic LED and buzzer alerts ensure safe operation of the system. 
-          Stay informed of critical conditions instantly.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+        {/* Alerts Feature */}
+        <div className="feature-row">
+          <div className="feature-img">
+            <img src="alerts.jpg" alt="Alerts & Safety" />
+          </div>
+          <div className="feature-text">
+            <h3>🔔 Alerts & Safety</h3>
+            <p>
+              Automatic LED and buzzer alerts ensure safe operation of the system.
+              Stay informed of critical conditions instantly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Updates Section */}
       <section id="updates" className="updates">
         <h2>Latest Updates</h2>
         <div className="update-grid">

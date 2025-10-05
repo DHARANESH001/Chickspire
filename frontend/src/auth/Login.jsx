@@ -30,7 +30,7 @@ const Login = () => {
       }
 
       localStorage.setItem('user', JSON.stringify(data));
-      navigate('/gamehome');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.');
     }
