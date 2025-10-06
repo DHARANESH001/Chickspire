@@ -1,4 +1,4 @@
-/* Background setup */
+
 .login-page {
   display: flex;
   height: 100vh;
@@ -14,8 +14,6 @@
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
 }
-
-/* Left panel */
 .left-panel {
   flex: 1;
   display: flex;
@@ -48,8 +46,6 @@
   color: #ddd;
   margin-top: 1rem;
 }
-
-/* Right panel */
 .right-panel {
   flex: 1;
   display: flex;
@@ -125,8 +121,6 @@
 .signup-text a:hover {
   text-decoration: underline;
 }
-
-/* Responsive */
 @media (max-width: 768px) {
   .login-page {
     flex-direction: column;

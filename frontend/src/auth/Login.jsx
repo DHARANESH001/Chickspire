@@ -23,12 +23,20 @@ const Login = () => {
         body: JSON.stringify(formData)
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.message || 'Invalid credentials');
+        // Try to parse error message if available
+        let errorMessage = 'Invalid credentials';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // If JSON parsing fails, use default message
+        }
+        throw new Error(errorMessage);
       }
 
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/dashboard');
     } catch (err) {
@@ -39,8 +47,6 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="background-overlay"></div>
-
-      {/* Left Info Section */}
       <div className="left-panel">
         <div className="left-content">
           <h1>CHICKSPIRE</h1>
@@ -52,8 +58,6 @@ const Login = () => {
           </p>
         </div>
       </div>
-
-      {/* Right Login Card */}
       <div className="right-panel">
         <div className="login-card">
           <h2>Sign In</h2>

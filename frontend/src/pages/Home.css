@@ -11,8 +11,6 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
-/* Navbar */
 .logo img {
   height: 110px;
   width: auto;
@@ -40,8 +38,6 @@ a {
 .navbar a:hover {
   color: #ffeb3b;
 }
-
-/* Hero Section */
 .hero {
   background: linear-gradient(135deg, #0077cc, #00bcd4);
   color: #111;
@@ -73,8 +69,6 @@ a {
   background: #f0f0f0;
   transform: translateY(-3px);
 }
-
-/* Features Section */
 .features {
   padding: 60px 40px;
   background: #f4f6f8;
@@ -130,8 +124,6 @@ a {
   font-size: 1rem;
   line-height: 1.6;
 }
-
-/* Updates Section */
 .updates {
   padding: 60px 40px;
   background: white;
@@ -179,8 +171,6 @@ a {
   margin-bottom: 10px;
   color: #111;
 }
-
-/* Footer */
 .footer {
   background: #282c34;
   color: white;
@@ -229,7 +219,7 @@ a {
   width: 100%;
   height: 100vh;
   object-fit: cover;
-  transition: transform 6s ease; /* Smooth pan effect */
+  transition: transform 6s ease; 
 }
 .slide:hover img {
   transform: scale(1.1);
@@ -250,8 +240,6 @@ a {
   font-size: 1.2rem;
   margin: 10px 0;
 }
-
-/* CTA Button (override for hero) */
 .cta-button {
   padding: 10px 20px;
   border: 2px solid white;
@@ -266,8 +254,6 @@ a {
   color: black;
   transform: translateY(-3px);
 }
-
-/* Animation */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -278,8 +264,6 @@ a {
     transform: translateY(0);
   }
 }
-
-/* Responsive */
 @media (max-width: 768px) {
   .feature-row, .feature-row.reverse {
     flex-direction: column;

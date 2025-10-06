@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Home.css"; // Reuse the same styles for consistent theme
+import "./Home.css";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -29,14 +29,13 @@ const Dashboard = () => {
 
   return (
     <div className="home-container">
-      {/* Navbar */}
       <header className="navbar">
         <div className="logo">
           <img src="logo.jpg" alt="Logo" className="nav-logo" />
         </div>
         <nav>
           <ul>
-            <li><a href="/gamehome">Dashboard</a></li>
+            <li><a href="/gamehome">Purchase</a></li>
             <li><a href="#sensors">Sensors</a></li>
             <li><a href="#analytics">Analytics</a></li>
             <li><a href="#settings">Settings</a></li>
@@ -44,8 +43,6 @@ const Dashboard = () => {
           </ul>
         </nav>
       </header>
-
-      {/* Hero Section */}
       <section className="hero">
         <h1>Welcome, {user?.username || "User"} 👋</h1>
         <p>
@@ -53,8 +50,6 @@ const Dashboard = () => {
         </p>
         <button className="cta-button" onClick={() => navigate("/gamehome")}>Go to Live Data</button>
       </section>
-
-      {/* Sensor Overview */}
       <section id="sensors" className="features">
         <h2 className="section-title">📊 Live Sensor Overview</h2>
         <div className="update-grid">
@@ -75,8 +70,6 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-
-      {/* Analytics Section */}
       <section id="analytics" className="updates">
         <h2>Analytics & Reports</h2>
         <div className="update-grid">
@@ -94,8 +87,6 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-columns">
           <div>

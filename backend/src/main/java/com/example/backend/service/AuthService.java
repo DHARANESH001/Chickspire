@@ -4,7 +4,7 @@ import com.example.backend.model.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,32 +14,31 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
-    // 🔹 Register new user
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public String register(String username, String email, String password) {
         if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("Email already registered!");
+            throw new RuntimeException("Email already registered");
         }
-
-        String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(username, email, encodedPassword);
+        String hashedPassword = passwordEncoder.encode(password);
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(hashedPassword);
         userRepository.save(user);
         return "User registered successfully";
     }
 
-    // 🔹 Login and return JWT
     public String login(String email, String password) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found!"));
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials!");
+            throw new RuntimeException("Invalid email or password");
         }
 
-        return jwtUtil.generateToken(email);
+        return jwtUtil.generateToken(user.getEmail());
     }
 }

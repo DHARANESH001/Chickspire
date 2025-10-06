@@ -46,15 +46,23 @@ const Register = () => {
         }),
       });
 
-      const data = await response.json();
-      console.log('Server Response:', data);
-
       if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+        // Try to parse error message if available
+        let errorMessage = 'Registration failed';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // If JSON parsing fails, use default message
+        }
+        throw new Error(errorMessage);
       }
 
+      const data = await response.json();
+      console.log('Server Response:', data);
+      
       localStorage.setItem('user', JSON.stringify(data));
-      navigate('/dashboard');
+      navigate('/login');
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
     }
@@ -63,8 +71,6 @@ const Register = () => {
   return (
     <div className="login-page">
       <div className="background-overlay"></div>
-
-      {/* Left Panel with Info */}
       <div className="left-panel">
         <div className="left-content">
           <h1>Join CHICKSPIRE</h1>
@@ -76,8 +82,6 @@ const Register = () => {
           </p>
         </div>
       </div>
-
-      {/* Right Registration Card */}
       <div className="right-panel">
         <div className="login-card">
           <h2>Create Account</h2>

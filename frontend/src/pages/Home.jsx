@@ -10,7 +10,6 @@ import "./Home.css";
 const Home = () => {
   return (
     <div className="home-container">
-      {/* Navigation */}
       <header className="navbar">
         <div className="logo">
           <img src="logo.jpg" alt="Logo" className="nav-logo" />
@@ -27,8 +26,6 @@ const Home = () => {
           </ul>
         </nav>
       </header>
-
-      {/* Hero Section (Slider) */}
       <section className="hero-slider">
         <Swiper
           spaceBetween={30}
@@ -73,12 +70,8 @@ const Home = () => {
           </SwiperSlide>
         </Swiper>
       </section>
-
-      {/* Features Zig-Zag Section */}
       <section id="features" className="features">
         <h2 className="section-title">Our Features</h2>
-
-        {/* Temperature Feature */}
         <div className="feature-row">
           <div className="feature-img">
             <img src="s1.jpg" alt="Temperature Monitoring" />
@@ -91,8 +84,6 @@ const Home = () => {
             </p>
           </div>
         </div>
-
-        {/* Water Flow Feature */}
         <div className="feature-row reverse">
           <div className="feature-img">
             <img src="water.jpg" alt="Water Flow Monitoring" />
@@ -105,8 +96,6 @@ const Home = () => {
             </p>
           </div>
         </div>
-
-        {/* Alerts Feature */}
         <div className="feature-row">
           <div className="feature-img">
             <img src="alerts.jpg" alt="Alerts & Safety" />
@@ -120,8 +109,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Updates Section */}
       <section id="updates" className="updates">
         <h2>Latest Updates</h2>
         <div className="update-grid">
@@ -139,8 +126,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
       <footer className="footer" id="contact">
         <div className="footer-columns">
           <div>
