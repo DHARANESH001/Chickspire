@@ -8,7 +8,6 @@ const LiveReading = () => {
   const [waterFlow, setWaterFlow] = useState(3.2);
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
-  // Simulate real-time data updates
   useEffect(() => {
     const interval = setInterval(() => {
       setTemperature((prev) => (prev + (Math.random() - 0.5) * 2).toFixed(1));

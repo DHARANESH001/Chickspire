@@ -1,10 +1,8 @@
-/* Live Reading Container */
 .live-reading-container {
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* Page Header */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -61,8 +59,6 @@
     opacity: 0.5;
   }
 }
-
-/* Sensor Grid */
 .sensor-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -70,7 +66,6 @@
   margin-bottom: 2rem;
 }
 
-/* Sensor Card */
 .sensor-card {
   background: white;
   border-radius: 16px;
@@ -104,7 +99,6 @@
   }
 }
 
-/* Sensor Header */
 .sensor-header {
   display: flex;
   align-items: center;
@@ -142,7 +136,6 @@
   font-size: 0.9rem;
 }
 
-/* Sensor Reading */
 .sensor-reading {
   display: flex;
   align-items: baseline;
@@ -163,7 +156,6 @@
   font-weight: 500;
 }
 
-/* Sensor Status */
 .sensor-status {
   display: flex;
   justify-content: space-between;
@@ -194,7 +186,6 @@
   font-size: 0.85rem;
 }
 
-/* Sensor Chart */
 .sensor-chart {
   background: #f7fafc;
   border-radius: 8px;
@@ -211,8 +202,6 @@
   color: #a0aec0;
   height: 100%;
 }
-
-/* Info Banner */
 .info-banner {
   display: flex;
   align-items: center;
@@ -229,7 +218,6 @@
   font-size: 0.95rem;
 }
 
-/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -264,7 +252,6 @@
   color: #0077cc;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .sensor-grid {
     grid-template-columns: 1fr;

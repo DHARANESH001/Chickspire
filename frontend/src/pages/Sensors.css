@@ -1,10 +1,7 @@
-/* Sensors Container */
 .sensors-container {
   max-width: 1400px;
   margin: 0 auto;
 }
-
-/* Sensor Detail Card */
 .sensor-detail-card {
   display: grid;
   grid-template-columns: 400px 1fr;
@@ -34,7 +31,6 @@
   order: 1;
 }
 
-/* Sensor Image Section */
 .sensor-image-section {
   position: relative;
   border-radius: 12px;
@@ -72,7 +68,6 @@
   transform: scale(1.05);
 }
 
-/* Sensor Content Section */
 .sensor-content-section {
   display: flex;
   flex-direction: column;
@@ -91,7 +86,6 @@
   margin: 0;
 }
 
-/* Specs Grid */
 .specs-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -122,7 +116,6 @@
   font-weight: 700;
 }
 
-/* Pros and Cons Grid */
 .pros-cons-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -169,7 +162,6 @@
   line-height: 1.5;
 }
 
-/* Compatibility Card */
 .compatibility-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -230,7 +222,6 @@
   z-index: 1;
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .sensor-detail-card,
   .sensor-detail-card.reverse {

@@ -47,13 +47,11 @@ const Register = () => {
       });
 
       if (!response.ok) {
-        // Try to parse error message if available
         let errorMessage = 'Registration failed';
         try {
           const errorData = await response.json();
           errorMessage = errorData.message || errorMessage;
         } catch {
-          // If JSON parsing fails, use default message
         }
         throw new Error(errorMessage);
       }

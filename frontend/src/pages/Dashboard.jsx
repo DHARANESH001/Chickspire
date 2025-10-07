@@ -34,7 +34,7 @@ const Dashboard = () => {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <div className="logo">
-            <img src="logo.jpg" alt="Logo" className="nav-logo" />
+            <img src="/logo.jpg" alt="Logo" className="nav-logo" />
             <span className="logo-text">CHICKSPIRE</span>
           </div>
         </div>

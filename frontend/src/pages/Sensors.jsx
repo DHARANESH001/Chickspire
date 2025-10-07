@@ -9,7 +9,7 @@ const Sensors = () => {
       id: 1,
       name: "LM35D Temperature Sensor",
       icon: Thermometer,
-      image: "lm35d.jpg",
+      image: "/lm35d.jpg",
       description: "The LM35D sensor provides precise temperature readings in Celsius and is commonly used in IoT-based poultry farm systems.",
       specs: [
         { label: "Accuracy", value: "±0.5°C" },
@@ -35,7 +35,7 @@ const Sensors = () => {
       id: 2,
       name: "YF-S201 Water Flow Sensor",
       icon: Droplets,
-      image: "yf-s201.jpg",
+      image: "/yf-s201.jpg",
       description: "The YF-S201 measures the rate of water flow using a Hall-effect sensor, ideal for water management in poultry environments.",
       specs: [
         { label: "Flow Range", value: "1-30 L/min" },

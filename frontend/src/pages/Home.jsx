@@ -15,7 +15,7 @@ const Home = () => {
     <div className="home-container">
       <header className="navbar">
         <div className="logo">
-          <img src="logo.jpg" alt="Logo" className="nav-logo" />
+          <img src="/logo.jpg" alt="Logo" className="nav-logo" />
           <span className="logo-text">CHICKSPIRE</span>
         </div>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
