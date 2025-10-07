@@ -1,0 +1,304 @@
+/* Live Reading Container */
+.live-reading-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 2rem;
+  color: #1a202c;
+  margin: 0;
+}
+
+.title-icon {
+  color: #0077cc;
+}
+
+.page-subtitle {
+  color: #718096;
+  margin: 0.5rem 0 0 0;
+  font-size: 1rem;
+}
+
+.last-update {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #e6f2ff;
+  border-radius: 20px;
+  color: #0077cc;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.update-dot {
+  width: 8px;
+  height: 8px;
+  background: #0077cc;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Sensor Grid */
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Sensor Card */
+.sensor-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.sensor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.sensor-card.high {
+  border-color: #f56565;
+  animation: alertPulse 2s infinite;
+}
+
+.sensor-card.low {
+  border-color: #ed8936;
+  animation: alertPulse 2s infinite;
+}
+
+@keyframes alertPulse {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(245, 101, 101, 0.3);
+  }
+}
+
+/* Sensor Header */
+.sensor-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sensor-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.temp-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.flow-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.sensor-info h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #2d3748;
+}
+
+.sensor-name {
+  margin: 0.25rem 0 0 0;
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+/* Sensor Reading */
+.sensor-reading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.reading-value {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  line-height: 1;
+}
+
+.reading-unit {
+  font-size: 1.5rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* Sensor Status */
+.sensor-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-badge.normal {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.status-badge.high,
+.status-badge.low {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.status-range {
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+/* Sensor Chart */
+.sensor-chart {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  min-height: 100px;
+}
+
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #a0aec0;
+  height: 100%;
+}
+
+/* Info Banner */
+.info-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.info-banner p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h4 {
+  margin: 0 0 0.75rem 0;
+  color: #718096;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0077cc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sensor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .sensor-card {
+    padding: 1.5rem;
+  }
+
+  .reading-value {
+    font-size: 2.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sensor-reading {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}

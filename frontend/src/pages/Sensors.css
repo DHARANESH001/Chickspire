@@ -1,0 +1,294 @@
+/* Sensors Container */
+.sensors-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Sensor Detail Card */
+.sensor-detail-card {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 2rem;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.sensor-detail-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.sensor-detail-card.reverse {
+  grid-template-columns: 1fr 400px;
+}
+
+.sensor-detail-card.reverse .sensor-image-section {
+  order: 2;
+}
+
+.sensor-detail-card.reverse .sensor-content-section {
+  order: 1;
+}
+
+/* Sensor Image Section */
+.sensor-image-section {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sensor-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.sensor-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sensor-detail-card:hover .sensor-image-section img {
+  transform: scale(1.05);
+}
+
+/* Sensor Content Section */
+.sensor-content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sensor-title {
+  font-size: 1.8rem;
+  color: #2d3748;
+  margin: 0;
+}
+
+.sensor-description {
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Specs Grid */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.spec-item {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-left: 4px solid #0077cc;
+}
+
+.spec-label {
+  font-size: 0.85rem;
+  color: #718096;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-value {
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 700;
+}
+
+/* Pros and Cons Grid */
+.pros-cons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.pros-section,
+.cons-section {
+  background: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.pros-section h4,
+.cons-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #2d3748;
+}
+
+.pros-section h4 svg {
+  color: #48bb78;
+}
+
+.cons-section h4 svg {
+  color: #f56565;
+}
+
+.pros-section ul,
+.cons-section ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pros-section li,
+.cons-section li {
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+/* Compatibility Card */
+.compatibility-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.compatibility-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.card-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.compatibility-card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.compatibility-card p {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  opacity: 0.95;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sensor-detail-card,
+  .sensor-detail-card.reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .sensor-detail-card.reverse .sensor-image-section,
+  .sensor-detail-card.reverse .sensor-content-section {
+    order: initial;
+  }
+
+  .sensor-image-section {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pros-cons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sensor-detail-card {
+    padding: 1.5rem;
+  }
+
+  .sensor-title {
+    font-size: 1.5rem;
+  }
+
+  .compatibility-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sensor-image-section {
+    height: 250px;
+  }
+
+  .sensor-badge {
+    width: 50px;
+    height: 50px;
+  }
+
+  .sensor-badge svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .compatibility-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .compatibility-card p {
+    font-size: 1rem;
+  }
+}

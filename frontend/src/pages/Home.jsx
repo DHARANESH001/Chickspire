@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Menu, X } from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -8,21 +9,27 @@ import "swiper/css/navigation";
 import "./Home.css";
 
 const Home = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="home-container">
       <header className="navbar">
         <div className="logo">
           <img src="logo.jpg" alt="Logo" className="nav-logo" />
+          <span className="logo-text">CHICKSPIRE</span>
         </div>
-        <nav>
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+        <nav className={menuOpen ? "nav-active" : ""}>
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#updates">Updates</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Register</a></li>
+            <li><a href="/login" className="btn-login">Login</a></li>
+            <li><a href="/register" className="btn-register">Register</a></li>
           </ul>
         </nav>
       </header>
@@ -72,40 +79,59 @@ const Home = () => {
       </section>
       <section id="features" className="features">
         <h2 className="section-title">Our Features</h2>
-        <div className="feature-row">
-          <div className="feature-img">
-            <img src="s1.jpg" alt="Temperature Monitoring" />
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon temp-icon">🌡️</div>
+            <div className="feature-img">
+              <img src="s1.jpg" alt="Temperature Monitoring" />
+            </div>
+            <div className="feature-content">
+              <h3>Temperature Monitoring</h3>
+              <p>
+                Track and alert when temperature goes out of safe operating range.
+                Using the LM35D sensor, readings are precise and monitored in real-time.
+              </p>
+              <div className="feature-stats">
+                <span className="stat-badge">±0.5°C Accuracy</span>
+                <span className="stat-badge">Real-time</span>
+              </div>
+            </div>
           </div>
-          <div className="feature-text">
-            <h3>🌡 Temperature Monitoring</h3>
-            <p>
-              Track and alert when temperature goes out of safe operating range.
-              Using the LM35D sensor, readings are precise and monitored in real-time.
-            </p>
+
+          <div className="feature-card">
+            <div className="feature-icon water-icon">💧</div>
+            <div className="feature-img">
+              <img src="water.jpg" alt="Water Flow Monitoring" />
+            </div>
+            <div className="feature-content">
+              <h3>Water Flow Measurement</h3>
+              <p>
+                Accurate measurement of water usage using the YF-S201 flow sensor.
+                Perfect for poultry farms to track water supply efficiency.
+              </p>
+              <div className="feature-stats">
+                <span className="stat-badge">1-30 L/min</span>
+                <span className="stat-badge">±3% Accuracy</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="feature-row reverse">
-          <div className="feature-img">
-            <img src="water.jpg" alt="Water Flow Monitoring" />
-          </div>
-          <div className="feature-text">
-            <h3>💧 Water Flow Measurement</h3>
-            <p>
-              Accurate measurement of water usage using the YF-S201 flow sensor.
-              Perfect for poultry farms to track water supply efficiency.
-            </p>
-          </div>
-        </div>
-        <div className="feature-row">
-          <div className="feature-img">
-            <img src="alerts.jpg" alt="Alerts & Safety" />
-          </div>
-          <div className="feature-text">
-            <h3>🔔 Alerts & Safety</h3>
-            <p>
-              Automatic LED and buzzer alerts ensure safe operation of the system.
-              Stay informed of critical conditions instantly.
-            </p>
+
+          <div className="feature-card">
+            <div className="feature-icon alert-icon">🔔</div>
+            <div className="feature-img">
+              <img src="alerts.jpg" alt="Alerts & Safety" />
+            </div>
+            <div className="feature-content">
+              <h3>Alerts & Safety</h3>
+              <p>
+                Automatic LED and buzzer alerts ensure safe operation of the system.
+                Stay informed of critical conditions instantly.
+              </p>
+              <div className="feature-stats">
+                <span className="stat-badge">Instant Alerts</span>
+                <span className="stat-badge">24/7 Monitoring</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

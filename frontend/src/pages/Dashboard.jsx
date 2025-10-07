@@ -1,64 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useNavigate, NavLink } from "react-router-dom";
+import { 
+  ShoppingCart, Activity, History, Cpu, BookOpen, User, 
+  LogOut, Menu, X
+} from "lucide-react";
 import "./Home.css";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     navigate("/");
   };
 
+  const menuItems = [
+    { path: "/dashboard/purchase", icon: ShoppingCart, label: "Purchase" },
+    { path: "/dashboard/live", icon: Activity, label: "Live Reading" },
+    { path: "/dashboard/history", icon: History, label: "History" },
+    { path: "/dashboard/sensors", icon: Cpu, label: "Sensors" },
+    { path: "/dashboard/guideline", icon: BookOpen, label: "Guideline" },
+    { path: "/dashboard/profile", icon: User, label: "Profile" },
+  ];
+
   return (
-    <div className="home-container">
-      <header className="navbar">
-        <div className="logo">
-          <img src="logo.jpg" alt="Logo" className="nav-logo" />
+    <div className="dashboard-container">
+      <header className="dashboard-header">
+        <div className="header-left">
+          <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+          <div className="logo">
+            <img src="logo.jpg" alt="Logo" className="nav-logo" />
+            <span className="logo-text">CHICKSPIRE</span>
+          </div>
         </div>
-        <nav>
-          <ul>
-            <li><NavLink to="/dashboard/purchase">Purchase</NavLink></li>
-            <li><NavLink to="/dashboard/live">Live Reading</NavLink></li>
-            <li><NavLink to="/dashboard/history">History</NavLink></li>
-            <li><NavLink to="/dashboard/sensors">Sensors</NavLink></li>
-            <li><NavLink to="/dashboard/guideline">Guideline</NavLink></li>
-            <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-            <li>
-              <button onClick={handleLogout} className="cta-button">Logout</button>
-            </li>
-          </ul>
-        </nav>
+        <div className="header-right">
+          <button onClick={handleLogout} className="logout-btn">
+            <LogOut size={20} />
+            <span>Logout</span>
+          </button>
+        </div>
       </header>
 
-      <main className="features">
-        <Outlet />
-      </main>
+      <div className="dashboard-layout">
+        <aside className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
+          <nav className="sidebar-nav">
+            {menuItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}
+              >
+                <item.icon size={20} />
+                {sidebarOpen && <span>{item.label}</span>}
+              </NavLink>
+            ))}
+          </nav>
+        </aside>
 
-      <footer className="footer">
-        <div className="footer-columns">
-          <div>
-            <h4>About</h4>
-            <p>
-              Smart Poultry Dashboard for monitoring real-time ESP32 IoT farm data efficiently and securely.
-            </p>
-          </div>
-          <div>
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li><NavLink to="/dashboard/live">Live Reading</NavLink></li>
-              <li><NavLink to="/dashboard/history">History</NavLink></li>
-              <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Contact</h4>
-            <p>Email: dharaneshv001@gmail.com</p>
-            <p>Phone: +91-7904846933</p>
-          </div>
-        </div>
-        <p className="footer-bottom">© 2025 Smart Poultry | All rights reserved.</p>
+        <main className="dashboard-main">
+          <Outlet />
+        </main>
+      </div>
+
+      <footer className="dashboard-footer">
+        <p>© 2025 CHICKSPIRE | Smart Poultry Monitoring System</p>
       </footer>
     </div>
   );
