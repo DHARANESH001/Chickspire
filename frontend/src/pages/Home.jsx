@@ -79,17 +79,15 @@ const Home = () => {
       </section>
       <section id="features" className="features">
         <h2 className="section-title">Our Features</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon temp-icon">🌡️</div>
+        <div className="features-zigzag">
+          <div className="feature-card zigzag-left">
             <div className="feature-img">
-              <img src="s1.jpg" alt="Temperature Monitoring" />
+              <img src="tempmeaurement.jpg" alt="Temperature Monitoring" />
             </div>
             <div className="feature-content">
               <h3>Temperature Monitoring</h3>
               <p>
-                Track and alert when temperature goes out of safe operating range.
-                Using the LM35D sensor, readings are precise and monitored in real-time.
+                The system continuously tracks and alerts users when the temperature deviates from the safe operating range. Utilizing the LM35D temperature sensor, it ensures highly accurate and reliable readings. The data is monitored in real time and detection of abnormal temperature variations. This approach enhances system safety, efficiency, and performance by allowing immediate corrective actions whenever environmental conditions exceed predefined thresholds.
               </p>
               <div className="feature-stats">
                 <span className="stat-badge">±0.5°C Accuracy</span>
@@ -98,16 +96,14 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon water-icon">💧</div>
+          <div className="feature-card zigzag-right">
             <div className="feature-img">
-              <img src="water.jpg" alt="Water Flow Monitoring" />
+              <img src="nipple.jpg" alt="Water Flow Monitoring" />
             </div>
             <div className="feature-content">
               <h3>Water Flow Measurement</h3>
               <p>
-                Accurate measurement of water usage using the YF-S201 flow sensor.
-                Perfect for poultry farms to track water supply efficiency.
+                The system provides accurate measurement of water usage through the YF-S201 flow sensor, ensuring precise monitoring of water flow in real time. This feature is particularly beneficial for poultry farms, where maintaining optimal water supply is essential for livestock health and productivity. By tracking water usage efficiency, the system helps in identifying wastage and promoting sustainable farming practices.
               </p>
               <div className="feature-stats">
                 <span className="stat-badge">1-30 L/min</span>
@@ -116,16 +112,14 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon alert-icon">🔔</div>
+          <div className="feature-card zigzag-left">
             <div className="feature-img">
               <img src="alerts.jpg" alt="Alerts & Safety" />
             </div>
             <div className="feature-content">
               <h3>Alerts & Safety</h3>
               <p>
-                Automatic LED and buzzer alerts ensure safe operation of the system.
-                Stay informed of critical conditions instantly.
+               The system features automatic LED and buzzer alerts to ensure safe and reliable operation. These indicators provide immediate notifications whenever critical conditions arise, allowing users to take prompt action. By combining visual and audible alerts, the system enhances safety awareness and minimizes the risk of damage or malfunction through real-time feedback.
               </p>
               <div className="feature-stats">
                 <span className="stat-badge">Instant Alerts</span>
@@ -146,14 +140,14 @@ const Home = () => {
             <h4>Water Usage Logging</h4>
             <p>Now you can track total water usage over time with integrated flow sensor.</p>
           </div>
-          <div className="update-card">
-            <h4>Cloud Integration (Coming Soon)</h4>
-            <p>Future update will allow remote monitoring and control from anywhere.</p>
-          </div>
         </div>
       </section>
       <footer className="footer" id="contact">
         <div className="footer-columns">
+          <div className="logo">
+          <img src="/logo.jpg" alt="Logo" className="nav-logo" />
+          <span className="logo-text">CHICKSPIRE</span>
+        </div>
           <div>
             <h4>About</h4>
             <p>

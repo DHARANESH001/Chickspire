@@ -14,7 +14,7 @@ const Purchase = () => {
   });
 
   const products = [
-    { id: 1, name: "ESP32 IoT Monitoring Kit", price: 4999, image: "esp32.jpg" },
+    { id: 1, name: "ESP32 IoT Monitoring Kit", price: 2500, image: "esp32.jpg" },
     { id: 2, name: "LM35D Temperature Sensor", price: 299, image: "lm35d.jpg" },
     { id: 3, name: "YF-S201 Water Flow Sensor", price: 499, image: "yf-s201.jpg" },
   ];

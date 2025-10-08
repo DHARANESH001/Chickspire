@@ -58,9 +58,7 @@ const Register = () => {
 
       const data = await response.json();
       console.log('Server Response:', data);
-      
-      localStorage.setItem('user', JSON.stringify(data));
-      navigate('/login');
+      navigate('/form', { state: { userData: data } });
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
     }

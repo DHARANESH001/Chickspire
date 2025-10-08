@@ -10,16 +10,22 @@ const LiveReading = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTemperature((prev) => (prev + (Math.random() - 0.5) * 2).toFixed(1));
-      setWaterFlow((prev) => (prev + (Math.random() - 0.5) * 0.5).toFixed(2));
+      setTemperature((prev) => {
+        const newValue = Number(prev) + (Math.random() - 0.5) * 2;
+        return parseFloat(newValue.toFixed(1));
+      });
+      setWaterFlow((prev) => {
+        const newValue = Number(prev) + (Math.random() - 0.5) * 0.5;
+        return parseFloat(newValue.toFixed(2));
+      });
       setLastUpdate(new Date());
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const tempStatus = temperature > 32 ? "high" : temperature < 20 ? "low" : "normal";
-  const flowStatus = waterFlow < 2 ? "low" : waterFlow > 5 ? "high" : "normal";
+  const tempStatus = temperature > 32 ? "high" : temperature < 30 ? "low" : "normal";
+  const flowStatus = waterFlow < 1 ? "low" : waterFlow > 3 ? "high" : "normal";
 
   return (
     <div className="live-reading-container">
@@ -56,7 +62,7 @@ const LiveReading = () => {
             <span className={`status-badge ${tempStatus}`}>
               {tempStatus === "normal" ? "✓ Normal" : "⚠ Alert"}
             </span>
-            <span className="status-range">Safe: 20-32°C</span>
+            <span className="status-range">Safe: 30-32°C</span>
           </div>
         </div>
 
@@ -78,7 +84,7 @@ const LiveReading = () => {
             <span className={`status-badge ${flowStatus}`}>
               {flowStatus === "normal" ? "✓ Normal" : "⚠ Alert"}
             </span>
-            <span className="status-range">Normal: 2-5 L/min</span>
+            <span className="status-range">Normal: 1-3 L/min</span>
           </div>
         </div>
       </div>

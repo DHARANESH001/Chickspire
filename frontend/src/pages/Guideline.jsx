@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BookOpen, Wifi, Zap, Settings, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { BookOpen, UserPlus, LogIn, LayoutDashboard, Activity, AlertTriangle, CheckCircle2 } from "lucide-react";
 import "./Home.css";
 import "./Guideline.css";
 
@@ -9,68 +9,31 @@ const Guideline = () => {
   const steps = [
     {
       id: 1,
-      title: "Hardware Setup",
-      icon: Zap,
+      title: "Using the Dashboard",
+      icon: LayoutDashboard,
       instructions: [
-        "Connect LM35D temperature sensor to analog pin A0 of ESP32",
-        "Connect YF-S201 water flow sensor output to digital pin D2",
-        "Ensure proper grounding for all components",
-        "Use quality jumper wires to avoid loose connections",
-        "Double-check polarity before powering on",
+        "Navigate using the sidebar menu to access different features",
+        "Live Reading: View real-time temperature and water flow data",
+        "History: Check past sensor readings and trends",
+        "Sensors: Manage and monitor your connected IoT sensors",
+        "Profile: Update your personal and farm information",
+        "Purchase: Order additional sensors or equipment",
       ],
-      warning: "Always disconnect power before making any hardware changes",
+      warning: "Regularly check the dashboard to stay updated on your farm conditions",
     },
     {
       id: 2,
-      title: "Power Supply",
-      icon: Zap,
+      title: "Monitoring & Alerts",
+      icon: Activity,
       instructions: [
-        "Provide stable 5V DC supply to ESP32 board",
-        "Ensure power supply can handle at least 500mA current",
-        "Connect sensors to appropriate voltage pins (3.3V or 5V)",
-        "Use decoupling capacitors near power pins",
-        "Avoid using USB power for production deployment",
+        "Live readings update automatically every 3 seconds",
+        "Temperature safe range is 30-32°C (alerts shown outside this range)",
+        "Water flow normal range is 2-5 L/min",
+        "Green badges indicate normal conditions",
+        "Yellow/Red badges indicate alerts that need attention",
+        "Check the 'Last Updated' timestamp to ensure data freshness",
       ],
-      warning: "Incorrect voltage can permanently damage your sensors",
-    },
-    {
-      id: 3,
-      title: "Software Configuration",
-      icon: Settings,
-      instructions: [
-        "Download and install Arduino IDE with ESP32 board support",
-        "Open the provided Arduino sketch file",
-        "Update Wi-Fi SSID and password in the code",
-        "Configure server endpoint URL if using custom backend",
-        "Set appropriate baud rate (usually 115200) for serial monitor",
-      ],
-      warning: "Keep your Wi-Fi credentials secure and never commit them to public repositories",
-    },
-    {
-      id: 4,
-      title: "Upload & Testing",
-      icon: Wifi,
-      instructions: [
-        "Connect ESP32 to computer via USB cable",
-        "Select correct board and COM port in Arduino IDE",
-        "Compile and upload the code to ESP32",
-        "Open Serial Monitor to verify connection status",
-        "Check if ESP32 successfully connects to Wi-Fi network",
-      ],
-      warning: "If upload fails, try pressing the BOOT button on ESP32 during upload",
-    },
-    {
-      id: 5,
-      title: "Calibration & Monitoring",
-      icon: CheckCircle2,
-      instructions: [
-        "Calibrate LM35D sensor using known temperature reference",
-        "Test water flow sensor with measured water volume",
-        "Open dashboard and navigate to Live Reading page",
-        "Verify real-time data is being received correctly",
-        "Set up alert thresholds for temperature and flow rate",
-      ],
-      warning: "Regular calibration ensures accurate sensor readings",
+      warning: "Respond promptly to alerts to maintain optimal farm conditions",
     },
   ];
 
@@ -80,9 +43,9 @@ const Guideline = () => {
         <div>
           <h2 className="page-title">
             <BookOpen className="title-icon" />
-            Hardware Connection Guide
+            How to Use CHICKSPIRE
           </h2>
-          <p className="page-subtitle">Step-by-step setup instructions for your IoT system</p>
+          <p className="page-subtitle">Complete guide to using our website and IoT monitoring system</p>
         </div>
       </div>
 

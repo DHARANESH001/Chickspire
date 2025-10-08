@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import FarmForm from "./auth/FarmForm";
 import Dashboard from "./pages/Dashboard";
 import Purchase from "./pages/Purchase";
 import LiveReading from "./pages/LiveReading";
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="form" element={<FarmForm />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<LiveReading />} />
           <Route path="purchase" element={<Purchase />} />

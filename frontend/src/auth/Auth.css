@@ -121,6 +121,26 @@
 .signup-text a:hover {
   text-decoration: underline;
 }
+
+.checkbox-group {
+  text-align: left;
+  margin: 0.8rem 0;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .login-page {
     flex-direction: column;
