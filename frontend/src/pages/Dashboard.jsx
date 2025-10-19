@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import { Outlet, useNavigate, NavLink } from "react-router-dom";
-import { 
-  ShoppingCart, Activity, History, Cpu, BookOpen, User, 
-  LogOut, Menu, X
-} from "lucide-react";
+import React from "react";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Mail, User } from "lucide-react";
 import "./Home.css";
 import "./Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -17,58 +13,73 @@ const Dashboard = () => {
     navigate("/");
   };
 
-  const menuItems = [
-    { path: "/dashboard/purchase", icon: ShoppingCart, label: "Purchase" },
-    { path: "/dashboard/live", icon: Activity, label: "Live Reading" },
-    { path: "/dashboard/history", icon: History, label: "History" },
-    { path: "/dashboard/sensors", icon: Cpu, label: "Sensors" },
-    { path: "/dashboard/guideline", icon: BookOpen, label: "Guideline" },
-    { path: "/dashboard/profile", icon: User, label: "Profile" },
-  ];
-
   return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="header-left">
-          <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+    <div className="dashboard-page">
+      {/* ---- Navbar ---- */}
+      <header className="top-navbar">
+        <div className="nav-left">
           <div className="logo">
-            <img src="/logo.jpg" alt="Logo" className="nav-logo" />
+            <img src="/logo.jpg" alt="Logo" />
             <span className="logo-text">CHICKSPIRE</span>
           </div>
         </div>
-        <div className="header-right">
-          <button onClick={handleLogout} className="logout-btn">
-            <LogOut size={20} />
-            <span>Logout</span>
+
+        <nav className="nav-center">
+          <NavLink to="/dashboard/live">Live</NavLink>
+          <NavLink to="/dashboard/history">History</NavLink>
+          <NavLink to="/dashboard/guideline">Guidelines</NavLink>
+          <NavLink to="/dashboard/purchase">Purchase</NavLink>
+          <NavLink to="/dashboard/sensors">Sensors</NavLink>
+        </nav>
+
+        <div className="nav-right">
+          <button className="icon-btn">
+            <Mail size={22} />
           </button>
+          <div className="profile-icon" onClick={() => navigate("/dashboard/profile")}>
+            <User size={24} />
+          </div>
         </div>
       </header>
 
-      <div className="dashboard-layout">
-        <aside className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
-          <nav className="sidebar-nav">
-            {menuItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}
-              >
-                <item.icon size={20} />
-                {sidebarOpen && <span>{item.label}</span>}
-              </NavLink>
-            ))}
-          </nav>
-        </aside>
+      {/* ---- Main Content ---- */}
+      <main className="dashboard-content">
+        <Outlet />
+      </main>
 
-        <main className="dashboard-main">
-          <Outlet />
-        </main>
-      </div>
+      {/* ---- Footer ---- */}
+      <footer className="footer">
+        <div className="footer-columns">
+          <div>
+            <div className="logo">
+              <img src="/logo.jpg" alt="Logo" />
+              <span className="logo-text">CHICKSPIRE</span>
+            </div>
+            <p>
+              ESP32 IoT Monitoring Project for real-time tracking of temperature
+              and water flow with alerts for safety and efficiency.
+            </p>
+          </div>
 
-      <footer className="dashboard-footer">
-        <p>© 2025 CHICKSPIRE | Smart Poultry Monitoring System</p>
+          <div>
+            <h4>Quick Links</h4>
+            <ul>
+              <li><NavLink to="/">Home</NavLink></li>
+              <li><NavLink to="/dashboard/live">Live</NavLink></li>
+              <li><NavLink to="/dashboard/history">History</NavLink></li>
+              <li><NavLink to="/dashboard/purchase">Purchase</NavLink></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Contact</h4>
+            <p>Email: dharaneshv011@gmail.com</p>
+            <p>Phone: +91-7908468933</p>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          © 2025 Poultry Farm | All rights reserved.
+        </div>
       </footer>
     </div>
   );

@@ -19,4 +19,8 @@ public class User {
 
     @Column(nullable=false)
     private String password;
+
+    private String farmName;
+    private String location;
+    private String phone;
 }

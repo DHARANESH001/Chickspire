@@ -49,7 +49,6 @@ const Home = () => {
               <div className="slide-text">
                 <h1>Welcome to ESP32 IoT Monitoring</h1>
                 <p>Track temperature & water flow with real-time alerts.</p>
-                <button className="cta-button">Get Started</button>
               </div>
             </div>
           </SwiperSlide>
@@ -60,7 +59,6 @@ const Home = () => {
               <div className="slide-text">
                 <h1>🌡 Temperature Monitoring</h1>
                 <p>Real-time LM35D sensor tracking with alerts.</p>
-                <button className="cta-button">Learn More</button>
               </div>
             </div>
           </SwiperSlide>
@@ -71,7 +69,6 @@ const Home = () => {
               <div className="slide-text">
                 <h1>💧 Water Flow Measurement</h1>
                 <p>Accurate usage tracking with YF-S201 sensor.</p>
-                <button className="cta-button">Explore</button>
               </div>
             </div>
           </SwiperSlide>
