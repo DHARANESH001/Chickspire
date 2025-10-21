@@ -3,28 +3,39 @@ import { Thermometer, Droplets, Activity } from "lucide-react";
 import "./Home.css";
 import "./LiveReading.css";
 
+const THINGSPEAK_CHANNEL_ID = "3123713"; 
+const THINGSPEAK_READ_KEY = "534F28U0J41AGJ5E"; 
+
 const LiveReading = () => {
-  const [temperature, setTemperature] = useState(28.5);
-  const [waterFlow, setWaterFlow] = useState(3.2);
+  const [temperature, setTemperature] = useState(0);
+  const [waterFlow, setWaterFlow] = useState(0);
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTemperature((prev) => {
-        const newValue = Number(prev) + (Math.random() - 0.5) * 2;
-        return parseFloat(newValue.toFixed(1));
-      });
-      setWaterFlow((prev) => {
-        const newValue = Number(prev) + (Math.random() - 0.5) * 0.5;
-        return parseFloat(newValue.toFixed(2));
-      });
-      setLastUpdate(new Date());
-    }, 3000);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://api.thingspeak.com/channels/${THINGSPEAK_CHANNEL_ID}/feeds.json?api_key=${THINGSPEAK_READ_KEY}&results=1`
+        );
+        const data = await response.json();
+        if (data.feeds && data.feeds.length > 0) {
+          const feed = data.feeds[0];
+          setTemperature(parseFloat(feed.field1));
+          setWaterFlow(parseFloat(feed.field2));
+          setLastUpdate(new Date(feed.created_at));
+        }
+      } catch (error) {
+        console.error("Error fetching ThingSpeak data:", error);
+      }
+    };
 
+    fetchData(); 
+    const interval = setInterval(fetchData, 10000); 
     return () => clearInterval(interval);
   }, []);
 
-  const tempStatus = temperature > 32 ? "high" : temperature < 30 ? "low" : "normal";
+  const tempStatus =
+    temperature > 92 ? "high" : temperature < 90 ? "low" : "normal";
   const flowStatus = waterFlow < 1 ? "low" : waterFlow > 3 ? "high" : "normal";
 
   return (
@@ -35,7 +46,9 @@ const LiveReading = () => {
             <Activity className="title-icon" />
             Live Sensor Readings
           </h2>
-          <p className="page-subtitle">Real-time monitoring from ESP32 IoT sensors</p>
+          <p className="page-subtitle">
+            Real-time monitoring from ESP32 IoT sensors
+          </p>
         </div>
         <div className="last-update">
           <span className="update-dot"></span>
@@ -56,13 +69,13 @@ const LiveReading = () => {
           </div>
           <div className="sensor-reading">
             <span className="reading-value">{temperature}</span>
-            <span className="reading-unit">°C</span>
+            <span className="reading-unit">°F</span>
           </div>
           <div className="sensor-status">
             <span className={`status-badge ${tempStatus}`}>
               {tempStatus === "normal" ? "✓ Normal" : "⚠ Alert"}
             </span>
-            <span className="status-range">Safe: 30-32°C</span>
+            <span className="status-range">Safe: 90-92°F</span>
           </div>
         </div>
 
@@ -86,17 +99,6 @@ const LiveReading = () => {
             </span>
             <span className="status-range">Normal: 1-3 L/min</span>
           </div>
-        </div>
-      </div>
-
-      <div className="stats-grid">
-        <div className="stat-card">
-          <h4>Today's Average Temp</h4>
-          <p className="stat-value">27.8°C</p>
-        </div>
-        <div className="stat-card">
-          <h4>Total Water Usage</h4>
-          <p className="stat-value">245 L</p>
         </div>
       </div>
     </div>
