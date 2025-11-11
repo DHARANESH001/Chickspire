@@ -18,94 +18,100 @@ const History = () => {
     flowData: [],
     dates: []
   });
-  const [timeRange, setTimeRange] = useState('24h'); // 24h, 7d, 30d
+  const [timeRange, setTimeRange] = useState("24h"); // 24h, 7d, 30d
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchThingSpeakData = async () => {
     try {
       setIsLoading(true);
-      // Calculate time range for filtering
+
+      // Calculate time range
       const now = new Date();
       let startDate = new Date();
-      let results = 50; // Default number of results
-      
-      if (timeRange === '24h') {
+      let results = 50;
+
+      if (timeRange === "24h") {
         startDate.setDate(now.getDate() - 1);
-        results = 100; // More data points for 24h view
-      } else if (timeRange === '7d') {
+        results = 100;
+      } else if (timeRange === "7d") {
         startDate.setDate(now.getDate() - 7);
         results = 50;
       } else {
         startDate.setDate(now.getDate() - 30);
-        results = 30; // Fewer data points for 30d view
+        results = 30;
       }
 
       const response = await fetch(
-        `https://api.thingspeak.com/channels/${THINGSPEAK_CHANNEL_ID}/feeds.json?api_key=${THINGSPEAK_READ_KEY}&results=${results}`
+        `https://api.thingspeak.com/channels/${THINGSPEAK_CHANNEL_ID}/feeds.json?api_key=${THINGSPEAK_READ_KEY}&results=${results}`,
+        { cache: "no-store" }
       );
+
+      if (!response.ok) throw new Error(`Network error: ${response.status}`);
       const data = await response.json();
 
-      if (data.feeds && data.feeds.length > 0) {
-        // Filter by date range and sort by date
-        const filteredFeeds = data.feeds
-          .filter(feed => {
-            const feedDate = new Date(feed.created_at);
-            return feedDate >= startDate;
-          })
-          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-
-        // Format for table
-        const formattedData = filteredFeeds.map((feed, index) => {
-          const temp = parseFloat(feed.field1);
-          const flow = parseFloat(feed.field2);
-
-          return {
-            date: new Date(feed.created_at).toLocaleDateString(),
-            time: new Date(feed.created_at).toLocaleTimeString(),
-            batch: `B-${1000 + index}`,
-            avgTemp: `${isNaN(temp) ? "—" : temp.toFixed(1)} °F`,
-            waterIntake: `${isNaN(flow) ? "—" : flow.toFixed(2)} L/min`,
-            status: temp < 90 || temp > 92 || flow < 1 || flow > 3 ? "warning" : "normal",
-            rawTemp: temp,
-            rawFlow: flow,
-            timestamp: feed.created_at
-          };
-        });
-
-        setHistoryData(formattedData.reverse());
-
-        // Prepare chart data
-        const labels = filteredFeeds.map(feed => {
-          const date = new Date(feed.created_at);
-          if (timeRange === '24h') {
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          } else {
-            return date.toLocaleDateString();
-          }
-        });
-
-        setChartData({
-          labels,
-          tempData: filteredFeeds.map(feed => parseFloat(feed.field1)),
-          flowData: filteredFeeds.map(feed => parseFloat(feed.field2)),
-          dates: filteredFeeds.map(feed => feed.created_at)
-        });
+      if (!data.feeds || data.feeds.length === 0) {
+        console.warn("No data from ThingSpeak yet.");
+        return;
       }
+
+      const filteredFeeds = data.feeds
+        .filter(feed => {
+          const feedDate = new Date(feed.created_at);
+          return feedDate >= startDate;
+        })
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+      const formattedData = filteredFeeds.map((feed, index) => {
+        const temp = parseFloat(feed.field1);
+        const flow = parseFloat(feed.field2);
+
+        return {
+          date: new Date(feed.created_at).toLocaleDateString(),
+          time: new Date(feed.created_at).toLocaleTimeString(),
+          batch: `B-${1000 + index}`,
+          avgTemp: `${isNaN(temp) ? "—" : temp.toFixed(1)} °F`,
+          waterIntake: `${isNaN(flow) ? "—" : flow.toFixed(2)} L/min`,
+          status: temp < 90 || temp > 92 || flow < 1 || flow > 3 ? "warning" : "normal",
+          rawTemp: temp,
+          rawFlow: flow,
+          timestamp: feed.created_at
+        };
+      });
+
+      setHistoryData(formattedData.reverse());
+
+      const labels = filteredFeeds.map(feed => {
+        const date = new Date(feed.created_at);
+        if (timeRange === "24h") {
+          return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        } else {
+          return date.toLocaleDateString();
+        }
+      });
+
+      setChartData({
+        labels,
+        tempData: filteredFeeds.map(feed => parseFloat(feed.field1)),
+        flowData: filteredFeeds.map(feed => parseFloat(feed.field2)),
+        dates: filteredFeeds.map(feed => feed.created_at)
+      });
     } catch (error) {
-      console.error("Error fetching ThingSpeak data:", error);
+      console.error("❌ Error fetching ThingSpeak data:", error);
+      alert("Unable to fetch latest sensor data. Please check Wi-Fi or ThingSpeak connection.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Auto-fetch data every 30 seconds
   useEffect(() => {
-    fetchThingSpeakData();
+    fetchThingSpeakData(); // initial load
+    const interval = setInterval(fetchThingSpeakData, 30000); // every 30 seconds
+    return () => clearInterval(interval);
   }, [timeRange]);
 
-  const filteredData = historyData.filter((row) => {
-    const matchesSearch = row.batch
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  const filteredData = historyData.filter(row => {
+    const matchesSearch = row.batch.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDate = dateFilter ? row.date === dateFilter : true;
     return matchesSearch && matchesDate;
   });
@@ -128,15 +134,15 @@ const History = () => {
               type="text"
               placeholder="Search batches..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
 
           <div className="date-filter">
             <Calendar size={18} className="calendar-icon" />
-            <select 
+            <select
               value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
+              onChange={e => setTimeRange(e.target.value)}
               className="time-range-selector"
               disabled={isLoading}
             >
@@ -146,18 +152,18 @@ const History = () => {
             </select>
           </div>
 
-          <button 
-            className="refresh-btn"
+          <button
+            className={`refresh-btn ${isLoading ? "loading" : ""}`}
             onClick={fetchThingSpeakData}
             disabled={isLoading}
           >
-            <RefreshCw size={16} className={isLoading ? 'spin' : ''} />
-            {isLoading ? 'Updating...' : 'Refresh'}
+            <RefreshCw size={16} className={isLoading ? "spin" : ""} />
+            {isLoading ? "Refreshing..." : "Refresh"}
           </button>
         </div>
       </div>
 
-      {/* Graph Analysis Section */}
+      {/* Graph Section */}
       <div className="graph-section">
         <div className="section-header">
           <h3>Historical Trends</h3>
@@ -172,10 +178,10 @@ const History = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="chart-container">
           <div className="chart-card">
-            <LineChart 
+            <LineChart
               title="Temperature Over Time"
               labels={chartData.labels}
               data={chartData.tempData}
@@ -184,9 +190,9 @@ const History = () => {
               backgroundColor="rgba(255, 99, 132, 0.2)"
             />
           </div>
-          
+
           <div className="chart-card">
-            <LineChart 
+            <LineChart
               title="Water Flow Over Time"
               labels={chartData.labels}
               data={chartData.flowData}
@@ -198,6 +204,7 @@ const History = () => {
         </div>
       </div>
 
+      {/* Table */}
       <div className="data-table-card">
         <div className="table-header">
           <h3> Sensor Data Records</h3>
@@ -244,13 +251,14 @@ const History = () => {
         </div>
       </div>
 
+      {/* Summary */}
       <div className="stats-summary">
         <div className="summary-card">
           <h4>Average Temperature</h4>
           <p className="summary-value">
             {(
-              historyData.reduce((acc, r) => acc + parseFloat(r.avgTemp) || 0, 0) /
-              historyData.length
+              historyData.reduce((acc, r) => acc + parseFloat(r.rawTemp || 0), 0) /
+              (historyData.length || 1)
             ).toFixed(1)}{" "}
             °F
           </p>
@@ -259,11 +267,8 @@ const History = () => {
           <h4>Average Water Flow</h4>
           <p className="summary-value">
             {(
-              historyData.reduce(
-                (acc, r) =>
-                  acc + (parseFloat(r.waterIntake) || 0),
-                0
-              ) / historyData.length
+              historyData.reduce((acc, r) => acc + parseFloat(r.rawFlow || 0), 0) /
+              (historyData.length || 1)
             ).toFixed(2)}{" "}
             L/min
           </p>
