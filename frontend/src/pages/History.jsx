@@ -1,24 +1,111 @@
-import React, { useState } from "react";
-import { Calendar, Search, Filter, TrendingUp, BarChart3 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Calendar, Search, Filter, TrendingUp, BarChart3, RefreshCw } from "lucide-react";
 import "./Home.css";
 import "./History.css";
+import LineChart from "../components/LineChart";
+
+// ThingSpeak channel info
+const THINGSPEAK_CHANNEL_ID = "3123713"; // your channel ID
+const THINGSPEAK_READ_KEY = "534F28U0J41AGJ5E"; // your read API key
 
 const History = () => {
-  const [historyData] = useState([
-    { date: "2025-10-01", batch: "B-1021", avgTemp: "28.6°C", waterIntake: "40 L", status: "normal" },
-    { date: "2025-10-02", batch: "B-1022", avgTemp: "29.1°C", waterIntake: "43 L", status: "normal" },
-    { date: "2025-10-03", batch: "B-1023", avgTemp: "27.8°C", waterIntake: "38 L", status: "normal" },
-    { date: "2025-10-04", batch: "B-1024", avgTemp: "30.2°C", waterIntake: "45 L", status: "warning" },
-    { date: "2025-10-05", batch: "B-1025", avgTemp: "28.9°C", waterIntake: "42 L", status: "normal" },
-    { date: "2025-10-06", batch: "B-1026", avgTemp: "27.5°C", waterIntake: "39 L", status: "normal" },
-    { date: "2025-10-07", batch: "B-1027", avgTemp: "29.8°C", waterIntake: "44 L", status: "normal" },
-  ]);
-
+  const [historyData, setHistoryData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("");
+  const [chartData, setChartData] = useState({
+    labels: [],
+    tempData: [],
+    flowData: [],
+    dates: []
+  });
+  const [timeRange, setTimeRange] = useState('24h'); // 24h, 7d, 30d
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchThingSpeakData = async () => {
+    try {
+      setIsLoading(true);
+      // Calculate time range for filtering
+      const now = new Date();
+      let startDate = new Date();
+      let results = 50; // Default number of results
+      
+      if (timeRange === '24h') {
+        startDate.setDate(now.getDate() - 1);
+        results = 100; // More data points for 24h view
+      } else if (timeRange === '7d') {
+        startDate.setDate(now.getDate() - 7);
+        results = 50;
+      } else {
+        startDate.setDate(now.getDate() - 30);
+        results = 30; // Fewer data points for 30d view
+      }
+
+      const response = await fetch(
+        `https://api.thingspeak.com/channels/${THINGSPEAK_CHANNEL_ID}/feeds.json?api_key=${THINGSPEAK_READ_KEY}&results=${results}`
+      );
+      const data = await response.json();
+
+      if (data.feeds && data.feeds.length > 0) {
+        // Filter by date range and sort by date
+        const filteredFeeds = data.feeds
+          .filter(feed => {
+            const feedDate = new Date(feed.created_at);
+            return feedDate >= startDate;
+          })
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+        // Format for table
+        const formattedData = filteredFeeds.map((feed, index) => {
+          const temp = parseFloat(feed.field1);
+          const flow = parseFloat(feed.field2);
+
+          return {
+            date: new Date(feed.created_at).toLocaleDateString(),
+            time: new Date(feed.created_at).toLocaleTimeString(),
+            batch: `B-${1000 + index}`,
+            avgTemp: `${isNaN(temp) ? "—" : temp.toFixed(1)} °F`,
+            waterIntake: `${isNaN(flow) ? "—" : flow.toFixed(2)} L/min`,
+            status: temp < 90 || temp > 92 || flow < 1 || flow > 3 ? "warning" : "normal",
+            rawTemp: temp,
+            rawFlow: flow,
+            timestamp: feed.created_at
+          };
+        });
+
+        setHistoryData(formattedData.reverse());
+
+        // Prepare chart data
+        const labels = filteredFeeds.map(feed => {
+          const date = new Date(feed.created_at);
+          if (timeRange === '24h') {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          } else {
+            return date.toLocaleDateString();
+          }
+        });
+
+        setChartData({
+          labels,
+          tempData: filteredFeeds.map(feed => parseFloat(feed.field1)),
+          flowData: filteredFeeds.map(feed => parseFloat(feed.field2)),
+          dates: filteredFeeds.map(feed => feed.created_at)
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching ThingSpeak data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchThingSpeakData();
+  }, [timeRange]);
 
   const filteredData = historyData.filter((row) => {
-    const matchesSearch = row.batch.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = row.batch
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesDate = dateFilter ? row.date === dateFilter : true;
     return matchesSearch && matchesDate;
   });
@@ -28,36 +115,92 @@ const History = () => {
       <div className="page-header">
         <div>
           <h2 className="page-title">
-            <Calendar className="title-icon" />
-            Historical Data Analysis
+            <BarChart3 className="title-icon" />
+            Historical Data
           </h2>
-          <p className="page-subtitle">View and analyze past sensor readings</p>
+          <p className="page-subtitle">Past sensor readings and analysis</p>
+        </div>
+
+        <div className="filters">
+          <div className="search-box">
+            <Search size={18} className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search batches..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="date-filter">
+            <Calendar size={18} className="calendar-icon" />
+            <select 
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value)}
+              className="time-range-selector"
+              disabled={isLoading}
+            >
+              <option value="24h">Last 24 Hours</option>
+              <option value="7d">Last 7 Days</option>
+              <option value="30d">Last 30 Days</option>
+            </select>
+          </div>
+
+          <button 
+            className="refresh-btn"
+            onClick={fetchThingSpeakData}
+            disabled={isLoading}
+          >
+            <RefreshCw size={16} className={isLoading ? 'spin' : ''} />
+            {isLoading ? 'Updating...' : 'Refresh'}
+          </button>
         </div>
       </div>
 
-      <div className="filter-section">
-        <div className="search-box">
-          <Search size={20} />
-          <input
-            type="text"
-            placeholder="Search by batch number..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      {/* Graph Analysis Section */}
+      <div className="graph-section">
+        <div className="section-header">
+          <h3>Historical Trends</h3>
+          <div className="chart-legend">
+            <div className="legend-item">
+              <span className="legend-color temp"></span>
+              <span>Temperature (°F)</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color flow"></span>
+              <span>Flow Rate (L/min)</span>
+            </div>
+          </div>
         </div>
-        <div className="date-filter">
-          <Filter size={20} />
-          <input
-            type="date"
-            value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
-          />
+        
+        <div className="chart-container">
+          <div className="chart-card">
+            <LineChart 
+              title="Temperature Over Time"
+              labels={chartData.labels}
+              data={chartData.tempData}
+              dataLabel="Temperature (°F)"
+              borderColor="rgb(255, 99, 132)"
+              backgroundColor="rgba(255, 99, 132, 0.2)"
+            />
+          </div>
+          
+          <div className="chart-card">
+            <LineChart 
+              title="Water Flow Over Time"
+              labels={chartData.labels}
+              data={chartData.flowData}
+              dataLabel="Flow Rate (L/min)"
+              borderColor="rgb(54, 162, 235)"
+              backgroundColor="rgba(54, 162, 235, 0.2)"
+            />
+          </div>
         </div>
       </div>
 
       <div className="data-table-card">
         <div className="table-header">
-          <h3>📋 Sensor Data Records</h3>
+          <h3> Sensor Data Records</h3>
           <span className="record-count">{filteredData.length} records</span>
         </div>
         <div className="table-wrapper">
@@ -65,9 +208,10 @@ const History = () => {
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Batch Number</th>
+                <th>Time</th>
+                <th>Batch</th>
                 <th>Avg Temperature</th>
-                <th>Water Intake</th>
+                <th>Water Flow</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -75,7 +219,10 @@ const History = () => {
               {filteredData.map((row, index) => (
                 <tr key={index}>
                   <td>{row.date}</td>
-                  <td><span className="batch-badge">{row.batch}</span></td>
+                  <td>{row.time}</td>
+                  <td>
+                    <span className="batch-badge">{row.batch}</span>
+                  </td>
                   <td>{row.avgTemp}</td>
                   <td>{row.waterIntake}</td>
                   <td>
@@ -85,48 +232,41 @@ const History = () => {
                   </td>
                 </tr>
               ))}
+              {filteredData.length === 0 && (
+                <tr>
+                  <td colSpan="6" className="no-data">
+                    No records found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <div className="comparison-section">
-        <div className="comparison-card">
-          <div className="card-header">
-            <BarChart3 size={24} />
-            <h3>Compare Data</h3>
-          </div>
-          <div className="comparison-inputs">
-            <div className="input-group">
-              <label>Start Date</label>
-              <input type="date" />
-            </div>
-            <div className="input-group">
-              <label>End Date</label>
-              <input type="date" />
-            </div>
-            <button className="compare-btn">
-              <TrendingUp size={18} />
-              Compare
-            </button>
-          </div>
-          <div className="chart-area">
-            <div className="chart-placeholder">
-              <BarChart3 size={48} />
-              <p>Select dates to view comparison chart</p>
-            </div>
-          </div>
         </div>
       </div>
 
       <div className="stats-summary">
         <div className="summary-card">
           <h4>Average Temperature</h4>
-          <p className="summary-value">28.7°C</p>
+          <p className="summary-value">
+            {(
+              historyData.reduce((acc, r) => acc + parseFloat(r.avgTemp) || 0, 0) /
+              historyData.length
+            ).toFixed(1)}{" "}
+            °F
+          </p>
         </div>
         <div className="summary-card">
-          <h4>Total Water Usage</h4>
-          <p className="summary-value">291 L</p>
+          <h4>Average Water Flow</h4>
+          <p className="summary-value">
+            {(
+              historyData.reduce(
+                (acc, r) =>
+                  acc + (parseFloat(r.waterIntake) || 0),
+                0
+              ) / historyData.length
+            ).toFixed(2)}{" "}
+            L/min
+          </p>
         </div>
         <div className="summary-card">
           <h4>Total Records</h4>
